@@ -4,9 +4,11 @@ import io.quarkus.vertx.web.Route;
 import io.vertx.core.http.RequestOptions;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.WebClient;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.logging.Logger;
 
+@ApplicationScoped
 public class TrafficInterceptor {
     private final static Logger LOG = Logger.getLogger(TrafficInterceptor.class.getName());
 
