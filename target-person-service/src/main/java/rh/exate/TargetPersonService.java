@@ -7,6 +7,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.jboss.resteasy.reactive.RestQuery;
 
+import java.util.logging.Logger;
+
 record Person (String id, String firstName, String lastName, int age, String accessToken, String secret){}
 
 @Path("/v1/api/customers")

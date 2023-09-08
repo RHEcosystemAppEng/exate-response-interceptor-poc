@@ -61,6 +61,9 @@
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${quarkus.platform.version}</version>
         <extensions>true</extensions>
+        <configuration>
+            <debug>5006</debug>
+        </configuration>
         <executions>
           <execution>
             <goals>
