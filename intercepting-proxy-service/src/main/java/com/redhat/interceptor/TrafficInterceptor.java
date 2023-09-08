@@ -1,37 +1,43 @@
 package com.redhat.interceptor;
 
 import io.quarkus.vertx.web.Route;
-import io.quarkus.vertx.web.RouteFilter;
-import io.quarkus.vertx.web.RoutingExchange;
-import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.RequestOptions;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.WebClient;
-import io.vertx.mutiny.core.Vertx;
-
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.util.logging.Logger;
 
 public class TrafficInterceptor {
     private final static Logger LOG = Logger.getLogger(TrafficInterceptor.class.getName());
 
-    @ConfigProperty(name = "target.server.port")
-    int targetPort;
+    private final WebClient client;
+    private final TargetService target;
 
-    @Route(regex = ".*", type = Route.HandlerType.BLOCKING, methods = {Route.HttpMethod.GET, Route.HttpMethod.POST, Route.HttpMethod.PUT})
-    public void handle(RoutingExchange re) throws InterruptedException {
-        LOG.info("wip");
-        var client = WebClient.create(re.context().vertx());
-        var req = client.request(re.request().method(), this.targetPort, "localhost", re.request().uri());
-        req.send().onSuccess(resp -> {
-            re.response().end(resp.bodyAsBuffer());
-        });
+    @Inject
+    public TrafficInterceptor(WebClient client, TargetService target) {
+        this.client = client;
+        this.target = target;
     }
 
-    @RouteFilter(0)
-    void myResponseFilter(RoutingContext rc) {
-        rc.response().putHeader("my_custom_header", "filtered_in");
-        rc.next();
+    @Route(regex = ".*")
+    public void handle(RoutingContext rc) {
+        LOG.fine(() -> String.format("got new request, %s", rc.request().absoluteURI()));
+        // create request options using origin request and target host and port
+        var opts = new RequestOptions()
+            .setHost(this.target.host())
+            .setPort(this.target.port())
+            .setHeaders(rc.request().headers())
+            .setURI(rc.request().uri());
+        // build request
+        var req = this.client.request(rc.request().method(), opts);
+        LOG.info("proxying request to target");
+        // send request to target service using original request body
+        req.sendBuffer(rc.body().buffer()).onSuccess(resp -> {
+            LOG.info("proxying request to target successful");
+            rc.response().end(resp.bodyAsBuffer());
+        }).onFailure(t -> {
+            LOG.severe("failed proxying request to target");
+            t.printStackTrace();
+        });
     }
 }
