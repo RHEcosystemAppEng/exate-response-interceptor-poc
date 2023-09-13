@@ -17,6 +17,7 @@ import jakarta.inject.Inject;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,6 +57,19 @@ public class TrafficInterceptor {
         LOG.info("proxying request to target");
         targetRequest.sendBuffer(rc.body().buffer()).onSuccess(targetResponse -> {
             LOG.info("proxying request to target successful");
+            var bypass = rc.request().getHeader("bypass-interception");
+            if (Objects.nonNull(bypass) && bypass.equals("true")) {
+                rc.response().end(targetResponse.bodyAsBuffer());
+
+                LOG.info("bypassing gator and returning target response");
+                // include target response headers in response
+                targetResponse.headers().forEach((k, v) -> rc.response().putHeader(k, v));
+                // end with the original target service response
+                rc.response().end(targetResponse.bodyAsBuffer());;
+                LOG.info("bypassing gator and returning target response successful");
+
+                return;
+            }
             // create token request options
             var tokenReqOpts = new RequestOptions()
                 .setHost(config.host())
@@ -77,7 +91,9 @@ public class TrafficInterceptor {
                     try {
                         parsedTokenResp = mapper.readValue(tokenResponse.bodyAsString(), TokenResponse.class);
                     } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
+                        LOG.severe("failed parsing gator token response");
+                        LOG.log(Level.FINE, e, e::getMessage);
+                        return;
                     }
                     // create dataset request options
                     var datasetReqOpts = new RequestOptions()
@@ -121,9 +137,14 @@ public class TrafficInterceptor {
                                 try {
                                     parsedDatasetResp = mapper.readValue(datasetResponse.bodyAsString(), DatasetResponse.class);
                                 } catch (JsonProcessingException e) {
-                                    throw new RuntimeException(e);
+                                    LOG.severe("failed parsing gator dataset response");
+                                    LOG.log(Level.FINE, e, e::getMessage);
+                                    return;
                                 }
                                 LOG.info("returning gator dataset as response");
+                                // include target response headers in gator'ed response
+                                targetResponse.headers().forEach((k, v) -> rc.response().putHeader(k, v));
+                                // end with the gator'ed response
                                 rc.response().end(parsedDatasetResp.dataSet());
                                 LOG.info("returning gator dataset as response successful");
                             }
