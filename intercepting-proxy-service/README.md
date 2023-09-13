@@ -6,14 +6,21 @@ mvn io.quarkus.platform:quarkus-maven-plugin:3.3.2:create\
   -DnoCode
 ```
 
-## Properties
+## Request Headers
 
-> Visit [APIGator Docs][0] for possible values and types.
+| Header Key         | Description        | Required | Default Value |
+|--------------------|--------------------|----------|---------------|
+| Api-Gator-Bypass   | Bypass API Gator   | No       | false         | 
+
+## Application Properties
+
+> Visit [APIGator Docs][1] for possible values and types.
 
 | Property Name                      | Environment Variable               | Required | Default Value                |
 |------------------------------------|------------------------------------|:--------:|------------------------------|
 | target.server.host                 | TARGET_SERVER_HOST                 |    No    | localhost                    |
 | target.server.port                 | TARGET_SERVER_PORT                 |   Yes    |                              |
+| target.server.secure               | TARGET_SERVER_SECURE               |    No    | false                        |
 | api.gator.host                     | API_GATOR_HOST                     |    No    | api.exate.co                 |
 | api.gator.port                     | API_GATOR_API                      |    No    | 443                          |
 | api.gator.dataset-uri              | API_GATOR_DATASET_URI              |    No    | /apigator/protect/v1/dataset |
@@ -37,4 +44,4 @@ mvn io.quarkus.platform:quarkus-maven-plugin:3.3.2:create\
 
 
 <!-- Links -->
-[0]: https://developer.exate.co/catalog/api/b49306b2-4040-429e-9306-b24040129ea1/doc
+[1]: https://developer.exate.co/catalog/api/b49306b2-4040-429e-9306-b24040129ea1/doc

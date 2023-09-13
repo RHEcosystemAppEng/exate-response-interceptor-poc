@@ -7,6 +7,7 @@ import com.redhat.interceptor.factories.PayloadFactory;
 import com.redhat.interceptor.factories.RequestOptionsFactory;
 import com.redhat.interceptor.gator.ApiConfig;
 import com.redhat.interceptor.gator.DatasetResponse;
+import com.redhat.interceptor.gator.RequestHeaders;
 import com.redhat.interceptor.gator.TokenResponse;
 import io.quarkus.vertx.web.Route;
 import io.vertx.core.Handler;
@@ -55,6 +56,7 @@ public class TrafficInterceptor {
         var targetRequest = this.client.request(context.request().method(), targetRequestOpts);
         LOG.info("proxying request to target");
         targetRequest
+            .ssl(this.target.secure())
             .sendBuffer(context.body().buffer())
             .onSuccess(handlerTargetResponse(context))
             .onFailure(handleErrors("failed proxying request to target", 500, context));
@@ -63,7 +65,7 @@ public class TrafficInterceptor {
     private Handler<HttpResponse<Buffer>> handlerTargetResponse(RoutingContext context) {
         return targetResponse -> {
             LOG.info("proxying request to target successful");
-            var bypass = context.request().getHeader("bypass-interception");
+            var bypass = context.request().getHeader(RequestHeaders.Api_Gator_Bypass.toString());
             if (Objects.nonNull(bypass) && bypass.equals("true")) {
                 LOG.info("bypassing gator and returning target response");
                 // end with the original target service response

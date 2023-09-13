@@ -8,7 +8,8 @@ public enum RequestHeaders {
     X_Validation_Key,
     X_Execution_Context,
     X_Dataset_On_Invalid_Manifest,
-    X_Silent_Mode;
+    X_Silent_Mode,
+    Api_Gator_Bypass;
 
     @Override
     public String toString() {
