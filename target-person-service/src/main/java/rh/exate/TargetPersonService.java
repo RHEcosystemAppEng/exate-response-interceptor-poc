@@ -11,7 +11,6 @@ record Person (String id, String firstName, String lastName, int age, String acc
 
 @Path("/v1/api/customers")
 public class TargetPersonService {
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Person getPerson(@NotNull @RestQuery String id) {
