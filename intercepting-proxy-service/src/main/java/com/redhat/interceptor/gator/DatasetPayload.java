@@ -26,12 +26,13 @@ public record DatasetPayload(
             }
         }
     }
+
     public enum JobType {
         DataMasking, Pseudonymise, Reconstruct, Restrict, Encrypt, Decrypt, Default;
     }
 
     public enum SqlType {
-        Oracle, MySQL, PostgreSQL, SqlServer, H2, Dremio
+        Oracle, MySQL, PostgreSQL, SqlServer, H2, Dremio;
     }
 
     public enum DatasetType {
