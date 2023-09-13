@@ -1,4 +1,4 @@
-package com.redhat.interceptor;
+package exate.gator.interceptor;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;

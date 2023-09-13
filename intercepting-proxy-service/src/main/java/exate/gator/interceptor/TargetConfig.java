@@ -1,4 +1,4 @@
-package com.redhat.interceptor;
+package exate.gator.interceptor;
 
 import io.smallrye.config.ConfigMapping;
 import jakarta.validation.constraints.NotBlank;

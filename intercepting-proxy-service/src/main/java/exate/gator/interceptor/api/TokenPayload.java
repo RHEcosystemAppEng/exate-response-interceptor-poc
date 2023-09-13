@@ -1,4 +1,4 @@
-package com.redhat.interceptor.gator;
+package exate.gator.interceptor.api;
 
 public record TokenPayload(String clientId, String clientSecret, String grantType) {
     @Override

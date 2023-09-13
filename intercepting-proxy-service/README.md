@@ -1,6 +1,6 @@
 ```shell
 mvn io.quarkus.platform:quarkus-maven-plugin:3.3.2:create\
-  -DprojectGroupId=com.redhat.interceptor\
+  -DprojectGroupId=exate.gator.interceptor\
   -DprojectArtifactId=intercepting-proxy-service\
   -Dextensions="reactive-routes,hibernate-validator,container-image-docker"\
   -DnoCode

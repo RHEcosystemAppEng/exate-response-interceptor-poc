@@ -1,10 +1,10 @@
-package com.redhat.interceptor.factories;
+package exate.gator.interceptor.factories;
 
-import com.redhat.interceptor.TargetConfig;
-import com.redhat.interceptor.gator.ApiConfig;
-import com.redhat.interceptor.gator.DatasetPayload;
-import com.redhat.interceptor.gator.RequestHeaders;
-import com.redhat.interceptor.gator.TokenResponse;
+import exate.gator.interceptor.TargetConfig;
+import exate.gator.interceptor.api.ApiConfig;
+import exate.gator.interceptor.api.DatasetPayload;
+import exate.gator.interceptor.api.RequestHeaders;
+import exate.gator.interceptor.api.TokenResponse;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.RequestOptions;

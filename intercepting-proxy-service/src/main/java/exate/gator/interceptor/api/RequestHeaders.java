@@ -1,4 +1,4 @@
-package com.redhat.interceptor.gator;
+package exate.gator.interceptor.api;
 
 public enum RequestHeaders {
     X_Data_Set_Type,

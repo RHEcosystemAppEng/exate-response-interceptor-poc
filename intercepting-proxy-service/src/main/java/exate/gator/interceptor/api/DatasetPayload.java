@@ -1,4 +1,4 @@
-package com.redhat.interceptor.gator;
+package exate.gator.interceptor.api;
 
 import java.util.Objects;
 

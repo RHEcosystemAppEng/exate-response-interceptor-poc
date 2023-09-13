@@ -1,14 +1,14 @@
-package com.redhat.interceptor;
+package exate.gator.interceptor;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redhat.interceptor.factories.PayloadFactory;
-import com.redhat.interceptor.factories.RequestOptionsFactory;
-import com.redhat.interceptor.gator.ApiConfig;
-import com.redhat.interceptor.gator.DatasetResponse;
-import com.redhat.interceptor.gator.RequestHeaders;
-import com.redhat.interceptor.gator.TokenResponse;
+import exate.gator.interceptor.factories.PayloadFactory;
+import exate.gator.interceptor.factories.RequestOptionsFactory;
+import exate.gator.interceptor.api.ApiConfig;
+import exate.gator.interceptor.api.DatasetResponse;
+import exate.gator.interceptor.api.RequestHeaders;
+import exate.gator.interceptor.api.TokenResponse;
 import io.quarkus.vertx.web.Route;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;

@@ -1,4 +1,4 @@
-package com.redhat.interceptor.constraints;
+package exate.gator.interceptor.constraints;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.ConstraintValidator;

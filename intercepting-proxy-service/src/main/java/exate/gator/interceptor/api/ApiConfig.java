@@ -1,6 +1,6 @@
-package com.redhat.interceptor.gator;
+package exate.gator.interceptor.api;
 
-import com.redhat.interceptor.constraints.CountryCode;
+import exate.gator.interceptor.constraints.CountryCode;
 import io.smallrye.config.ConfigMapping;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
