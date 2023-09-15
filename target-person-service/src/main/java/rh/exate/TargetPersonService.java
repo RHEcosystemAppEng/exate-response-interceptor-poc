@@ -1,5 +1,6 @@
 package rh.exate;
 
+import io.quarkus.logging.Log;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -20,6 +21,7 @@ public class TargetPersonService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Employees getPerson(@NotNull @RestQuery String id) {
+        Log.info("got request");
         // the response structure matches the Employee manifest pre-configured in gator and used in the poc
         var person = new Person(id,"John","doe",51,"someSecretAccessTokenValue","someConfidentialSecretValue");
         var employee = new Employee(List.of(person));
