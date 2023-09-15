@@ -65,9 +65,13 @@ curl -s http://localhost:8080/v1/api/customers?id=17 | jq
 ## Deploy
 
 ```shell
-./mvnw install -Dquarkus.container-image.push=true
+./mvnw install \
+-Dquarkus.container-image.build=true \
+-Dquarkus.container-image.push=true \
+-Dquarkus.container-image.group=ecosystem-appeng \
+-Dquarkus.container-image.name=exate-poc-target-person-service \
+-Dquarkus.container-image.registry=quay.io \
+-f pom.xml
 ```
-
-> Image spec is set in [src/main/resources/application.properties](src/main/resources/application.properties)
 
 The image will be available at `quay.io/ecosystem-appeng/exate-poc-target-person-service`.
