@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gator-api-interceptor
+  labels:
+    app: gator-api-interceptor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gator-api-interceptor
+  template:
+    metadata:
+      labels:
+        app: gator-api-interceptor
+    spec:
+      containers:
+      - name: gator-api-interceptor
+        image: quay.io/ecosystem-appeng/gator-api-interceptor:1.0.0-SNAPSHOT
+        ports:
+        - containerPort: 8082
+        envFrom:
+        - configMapRef:
+            name: interceptor-config

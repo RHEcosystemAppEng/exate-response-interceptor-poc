@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: target-person-service
+  labels:
+    app: target-person-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: target-person-service
+  template:
+    metadata:
+      labels:
+        app: target-person-service
+    spec:
+      containers:
+      - name: target-person-service
+        image: quay.io/ecosystem-appeng/exate-poc-target-person-service:1.0.0-SNAPSHOT
+        ports:
+        - containerPort: 8080

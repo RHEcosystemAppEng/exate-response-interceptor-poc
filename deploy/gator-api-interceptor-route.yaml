@@ -1,0 +1,14 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: gator-api-interceptor
+spec:
+  to:
+    kind: Service
+    name: gator-api-interceptor
+    weight: 100
+  port:
+    targetPort: 8082
+  tls:
+    termination: edge
+  wildcardPolicy: None

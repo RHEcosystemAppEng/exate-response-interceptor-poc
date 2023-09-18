@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gator-api-interceptor
+spec:
+  selector:
+    app: gator-api-interceptor
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
