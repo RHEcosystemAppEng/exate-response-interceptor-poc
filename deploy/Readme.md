@@ -6,51 +6,16 @@ This README provides instructions for deploying the mock service and the interce
 
 - Access to an OpenShift cluster.
 - `oc` command-line tool installed and authenticated.
-
-## Deploying the Services
-
-### 1. Mock Service
-
-To deploy the `target-person-service`, follow the instructions below:
-
+- Set the `NAMESPACE` and `ROUTER_DOMAIN` environment variables.
+ These variables help configure the deployment according to your specific OpenShift cluster and domain settings:
 ```bash
-oc apply -f target-person-service-deployment.yaml
-oc apply -f target-person-service-service.yaml
+export NAMESPACE=your-namespace
+export ROUTER_DOMAIN=your.router.domain
 ```
-
-### 2. Interceptor App
-
-```bash
-oc apply -f interceptor-config.yaml
-oc apply -f gator-api-interceptor-deployment.yaml
-oc apply -f gator-api-interceptor-service.yaml
-```
-
-## Testing the Setup
-
-
-1. **Verify the original dataset:**
-
-```bash
-
-curl -sw "\n" "https://target-person-service-exate-api-gator.apps.ocp-dev01.lab.eng.tlv2.redhat.com/v1/api/customers?id=56" -v -k
-
-```
-
-2. **Verify the masked dataset:**
-
-```bash
-curl -sw "\n" "https://gator-api-interceptor-exate-api-gator.apps.ocp-dev01.lab.eng.tlv2.redhat.com/v1/api/customers?id=56" -v -k
-```
-
-3. **Bypass the interceptor:**
-
-```bash
-curl -H "Api-Gator-Bypass: true" -sw "\n" "https://target-person-service-exate-api-gator.apps.ocp-dev01.lab.eng.tlv2.redhat.com/v1/api/customers?id=56" -v -k
-```
+---
+**Note:** If you don't set these variables, the default values from the Makefile (exate-api-gator for NAMESPACE and apps.ocp-dev01.lab.eng.tlv2.redhat.com for ROUTER_DOMAIN) will be used.
 
 ---
-
 
 # Exate POC Deployment Guide
 
@@ -108,3 +73,51 @@ The provided `Makefile` simplifies the deployment and testing processes for the 
    ```
 
 
+<details>
+  <summary>manual deployment!</summary>
+
+## Deploying the Services
+
+### 1. Mock Service
+
+To deploy the `target-person-service`, follow the instructions below:
+
+```bash
+oc apply -f target-person-service-deployment.yaml
+oc apply -f target-person-service-service.yaml
+```
+
+### 2. Interceptor App
+
+```bash
+oc apply -f interceptor-config.yaml
+oc apply -f gator-api-interceptor-deployment.yaml
+oc apply -f gator-api-interceptor-service.yaml
+```
+
+## Testing the Setup
+
+
+1. **Verify the original dataset:**
+
+```bash
+
+curl -sw "\n" "https://target-person-service-exate-api-gator.apps.ocp-dev01.lab.eng.tlv2.redhat.com/v1/api/customers?id=56" -v -k
+
+```
+
+2. **Verify the masked dataset:**
+
+```bash
+curl -sw "\n" "https://gator-api-interceptor-exate-api-gator.apps.ocp-dev01.lab.eng.tlv2.redhat.com/v1/api/customers?id=56" -v -k
+```
+
+3. **Bypass the interceptor:**
+
+```bash
+curl -H "Api-Gator-Bypass: true" -sw "\n" "https://target-person-service-exate-api-gator.apps.ocp-dev01.lab.eng.tlv2.redhat.com/v1/api/customers?id=56" -v -k
+```
+
+---
+
+</details>
